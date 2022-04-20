@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# you need to install speedtest command
+# sudo pip3 install speedtest-cli
+
+which speedtest-cli &>/dev/null;
+
+if (( $? != 0 ));
+then
+  echo "command not exist, please install it.";
+  exit 1;
+fi
+
+ls speedtest-log.log &>/dev/null
+if (( $? != 0 ));
+then
+  touch speedtest-log.log;
+fi
+
+rute=$(pwd);
+fileName="speedtest-log";
+fileSize=$(stat $fileName.log | awk 'FNR==2 {print $2}');
+
+if (( "$fileSize" > "1000000" ));
+then
+  ls -d logs_history/ &>/dev/null;
+  if (( $? != 0 ));
+  then
+    mkdir logs_history;
+  fi
+  mv $fileName.log logs_history/$fileName\_$(date +%F_%H_%M).log;
+fi
+
+dateNow=$(date +%F" "%X );
+dateNowUnix=$(date +%s);
+data=("$dateNowUnix");
+
+for i in $(speedtest-cli --simple | awk '{print $2}');
+do
+  data+=($i);
+done
+echo "$dateNow ${data[1]} ${data[2]} ${data[3]}" >> $rute/speedtest-log.log;
+echo "${data[0]};${data[1]};${data[2]};${data[3]}" >> $rute/speedtest-data.csv;
