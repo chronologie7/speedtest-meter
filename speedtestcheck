@@ -7,7 +7,7 @@ which speedtest-cli &>/dev/null;
 
 if (( $? != 0 ));
 then
-  echo "command not exist, please install it.";
+  echo 'command "speedtest-cli" not exist, please install it.';
   exit 1;
 fi
 
