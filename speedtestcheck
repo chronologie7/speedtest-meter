@@ -31,13 +31,12 @@ then
   mv $fileName.log logs_history/$fileName\_$(date +%F_%H_%M).log;
 fi
 
-dateNow=$(date +%F" "%X );
-dateNowUnix=$(date +%s);
-data=("$dateNowUnix");
+dateNow=$(date +%F" "%X);
+data=("$dateNow");
 
 for i in $(speedtest-cli --simple | awk '{print $2}');
 do
   data+=($i);
 done
-echo "$dateNow ${data[1]} ${data[2]} ${data[3]}" >> $rute/speedtest-log.log;
+echo "${data[0]} ${data[1]} ${data[2]} ${data[3]}" >> $rute/speedtest-log.log;
 echo "${data[0]};${data[1]};${data[2]};${data[3]}" >> $rute/speedtest-data.csv;
