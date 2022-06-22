@@ -2,6 +2,8 @@
 
 # you need to install speedtest command
 # sudo pip3 install speedtest-cli
+# create a folder in your home directory and install the script here
+# with cron daemon execute the obsolute path for execute it.
 
 which speedtest-cli &>/dev/null;
 
